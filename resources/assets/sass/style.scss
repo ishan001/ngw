@@ -3008,7 +3008,8 @@ input:-moz-placeholder, textarea:-moz-placeholder, input::-webkit-input-placehol
   }
   .has-error {
     input, textarea {
-      border-color: -moz-use-text-color -moz-use-text-color #ce4844;
+      border-color: -moz-use-text-color -moz-use-text-color #ce4844 !important;
+      border-color: #ce4844 !important;
     }
   }
 }
