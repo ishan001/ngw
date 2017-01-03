@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Web Design NZ | Web Design Auckland  | Web Design Company | Software NZ | Web Hosting NZ | SEO NZ</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <meta name="description" content="web design nz , web design auckland , auckland web design , website design auckland , graphic design auckland , website design company , website builder , web design christchurch , web design wellington , free website , software nz, web hosting nz, SEO nz, CMS web creation"/>
     <meta  name="keywords" content="  web design nz , web design auckland , auckland web design , website design auckland , graphic design auckland , website design company , website builder , web design christchurch , web design wellington , free website , software nz, web hosting , web hosting nz, web developer, web master, frelance web designer, free web design, free web builder"/>
