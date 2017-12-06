@@ -1,6 +1,8 @@
 <?php
 
-use Laravel\Lumen\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ExampleTest extends TestCase
 {
@@ -9,12 +11,8 @@ class ExampleTest extends TestCase
      *
      * @return void
      */
-    public function testExample()
+    public function testBasicExample()
     {
-        $this->get('/');
-
-        $this->assertEquals(
-            $this->app->version(), $this->response->getContent()
-        );
+        $this->assertTrue(true);
     }
 }

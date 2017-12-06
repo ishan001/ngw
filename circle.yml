@@ -1,0 +1,76 @@
+# PHP CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-php/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      - image: bmanu/silverstripe-web-node:0.1
+      - image: circleci/mysql:5.7
+        environment:
+          - MYSQL_USER=root
+          - MYSQL_ROOT_PASSWORD=ubuntu
+          - MYSQL_DATABASE=circle_test
+          - MYSQL_HOST=127.0.0.1
+
+    working_directory: ~/var/www
+
+    branches:
+      only:
+        - master
+        - develop
+        - /feature.*/
+        - /release.*/
+
+    steps:
+      - checkout
+
+      # Setup _ss_environment.php
+      - run:
+          command: |
+            cat << 'EOF' > _ss_environment.php
+            <?php
+            define('SS_DATABASE_CLASS', 'MySQLDatabase');
+            define('SS_DATABASE_SERVER', '127.0.0.1');
+            define('SS_DATABASE_USERNAME', 'root');
+            define('SS_DATABASE_PASSWORD', 'ubuntu');
+            define('SS_DATABASE_NAME', 'circle_test');
+            define('SS_ENVIRONMENT_TYPE', 'dev');
+            global $_FILE_TO_URL_MAPPING;
+            $_FILE_TO_URL_MAPPING['/root/var/www'] = 'http://localhost/';
+            EOF
+
+      # Download and cache composer dependencies
+      - restore_cache:
+          keys:
+            - v1-composer-{{ checksum "composer.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-composer-
+
+      - run: composer install -n --prefer-dist
+
+      - save_cache:
+          paths:
+            - ./vendor
+          key: v1-composer-{{ checksum "composer.json" }}
+
+      ## Download and cache yarn dependencies
+      - restore_cache:
+          keys:
+            - v1-yarn-{{ checksum "yarn.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-yarn-
+
+      - run: yarn install
+
+      - save_cache:
+          paths:
+            - ./node_modules
+          key: v1-yarn-{{ checksum "yarn.lock" }}
+
+      # ensure database setup correctly
+      - run: framework/sake dev/build flush=1
+
+      # run tests!
+      - run: vendor/bin/phpunit -d memory_limit=512M
